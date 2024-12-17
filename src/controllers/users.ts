@@ -1,18 +1,12 @@
 import { Request, Response } from "express";
 import { CreateUser } from "../dtos/CreateUser.dto";
+import { get_student_users } from "../database";
 
-export function getUsers(req: Request, res: Response) {
+export async function getUsers(req: Request, res: Response) {
+  const student_users = await get_student_users();
+
   res.json({
-    users: [
-      {
-        id: 1,
-        name: "John Doe",
-      },
-      {
-        id: 2,
-        name: "Jane Doe",
-      },
-    ],
+    users: student_users
   });
 }
 

@@ -2,9 +2,17 @@ import { Request, Response } from "express";
 import { CreateUser } from "../dtos/CreateUser.dto";
 import { pool } from "../database";
 
-export async function get_student_users(req: Request, res: Response) {
+const user_select_statement = "id, username, email, access";
+
+export async function get_student_users(
+  req: Request<{ id: string }>,
+  res: Response
+) {
+  const { id } = req.params;
   const [rows] = await pool.query(
-    "SELECT id, username, email, access FROM student_users"
+    id
+      ? `SELECT ${user_select_statement} FROM users WHERE id = ${id}`
+      : `SELECT ${user_select_statement} FROM users`
   );
   res.json({
     users: rows,

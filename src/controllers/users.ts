@@ -1,12 +1,13 @@
 import { Request, Response } from "express";
 import { CreateUser } from "../dtos/CreateUser.dto";
-import { get_student_users } from "../database";
+import { pool } from "../database";
 
-export async function getUsers(req: Request, res: Response) {
-  const student_users = await get_student_users();
-
+export async function get_student_users(req: Request, res: Response) {
+  const [rows] = await pool.query(
+    "SELECT id, username, email, access FROM student_users"
+  );
   res.json({
-    users: student_users
+    users: rows,
   });
 }
 

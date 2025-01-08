@@ -4,3 +4,8 @@ export type CreateUser = {
   email: string;
   access?: "student" | "teacher" | "admin" | null;
 }
+
+export type CreateNote = {
+  title: string;
+  body: string;
+}

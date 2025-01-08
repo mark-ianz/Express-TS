@@ -40,10 +40,10 @@ export async function create_user(
 
   const [result] = await pool.query<ResultSetHeader>(query, params);
 
-  res.json({
-    id: result.insertId,
-    username,
-    email,
-    access,
-  });
+  const [user] = await pool.query<User[]>(
+    `SELECT ${user_select_statement} FROM users WHERE id = ?`,
+    [result.insertId]
+  );
+
+  res.json(user[0]);
 }
